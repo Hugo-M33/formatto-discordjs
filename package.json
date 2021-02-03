@@ -1,0 +1,33 @@
+{
+  "name": "formatto-discordjs",
+  "version": "1.0.0",
+  "description": "Discord bot to format messages using embeds",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hugo-M33/formatto-discordjs.git"
+  },
+  "keywords": [
+    "Discord",
+    "Bot",
+    "Format",
+    "Formatter",
+    "DiscordJs",
+    "Discord.js",
+    "Formatting"
+  ],
+  "author": "Hugo Martin",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Hugo-M33/formatto-discordjs/issues"
+  },
+  "homepage": "https://github.com/Hugo-M33/formatto-discordjs#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.19.0"
+  }
+}
