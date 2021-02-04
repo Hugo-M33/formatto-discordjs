@@ -116,8 +116,13 @@ client.on('messageReactionAdd', (reaction, reactingUser) => {
     if (reactionEmojis.includes(reaction.emoji.toString()) && interactiveModeUsers.find((user) => (reaction.message === user.state.trackedMessage && user.author === reactingUser)) !== undefined) {
         switch(reaction.emoji.toString()) {
             case "1️⃣":
-                reaction.message.delete({reason: "Action 1"});
-                quitInteractiveMode(reactingUser, reaction.message.channel)
+                interactiveModeUsers.map((user) => {
+                    if (reaction.message === user.state.trackedMessage && user.author === reactingUser){
+                        user.state.definedElements.push("ceci est un test");
+                    }
+                reaction.message.delete();
+                reaction.message.channel.send(interactiveModeUsers[0].state.definedElements);
+            });
                 break;
                 case "2️⃣":
                     reaction.message.channel.send("action 2 🤡🤡🤡");
