@@ -43,8 +43,35 @@ client.on("message", (message) => {
       //readInteractiveInput(message);
       //break;
     }
+  } else {
+      let respondingUser = undefined;
+    interactiveModeUsers.forEach((user) => {
+        if (
+          user.channel === message.channel &&
+          user.author === message.author
+        ) {
+            respondingUser = user;
+        }
+      });
+      switch (respondingUser.currentState) {
+          case "awaitingTitle":
+            respondingUser.state.definedElements.push({type: "title", content: message.content});
+            respondingUser.trackedMessage.delete();
+            decodeEmbed(respondingUser);
+      }
   }
 });
+
+const decodeEmbed = user => {
+    const createdEmbed = new Discord.MessageEmbed();
+    user.state.definedElements.forEach(element => {
+        switch(element.type) {
+            case "title":
+                createdEmbed.setTitle(element.content);
+        }
+    })
+    user.channel.send(createdEmbed)
+}
 
 const presentation = (message) => {
   const _presentation = new Discord.MessageEmbed()
@@ -142,21 +169,25 @@ client.on("messageReactionAdd", (reaction, reactingUser) => {
   ) {
     switch (reaction.emoji.toString()) {
       case "1️⃣":
-        const titleParsingQuery = new Discord.MessageEmbed()
+          const titleParsingQuery = new Discord.MessageEmbed()
           .setColor("#78A5BE")
           .setTitle("Title setting")
           .setDescription("Ecrivez votre Titre");
+
+          reaction.message.delete();
+          let trackedUser = underfined;
+          reaction.message.channel.send(
+            titleParsingQuery
+          ).then(queryMessage => {trackedUser = queryMessage});
+
         interactiveModeUsers.map((user) => {
           if (
             reaction.message === user.state.trackedMessage &&
             user.author === reactingUser
           ) {
             user.state.currentState = "awaitingTitle";
+            user.state.trackedMessage = queryMessage;
           }
-          reaction.message.delete();
-          reaction.message.channel.send(
-            titleParsingQuery
-          );
         });
         break;
       case "2️⃣":
